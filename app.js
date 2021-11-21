@@ -17,18 +17,22 @@ const app = express();
 // Port
 const port = process.env.PORT || 3000;
 
-require("./routes/webservice")(app);
-require("./routes/canvas")(app);
-
 // Skapa statisk sökväg
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors())
+app.use(express.json())
+
+require("./routes/webservice")(app);
+require("./routes/canvas")(app);
+require("./routes/auth")(app);
+
 
 app.all('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type");
+    res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
+    next();
 });
 //app.use(https);
 /**
@@ -46,4 +50,4 @@ app.all('/*', function(req, res, next) {
 // Starta servern
 app.listen(port, function() {
     console.log("Server running on port " + port);
-  });
+});
