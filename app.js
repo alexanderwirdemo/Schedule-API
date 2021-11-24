@@ -4,8 +4,13 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require('express-session');
-
 const cors = require('cors');
+const { MongoClient } = require('mongodb');
+
+const DATABASE = 'Schedule'
+const DB_USER = 'lidiya' // Database connection user
+const DB_PASSWORD = 'dvpMXNSQWFAp2UGb' // Database connection password
+const DATABASE_URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@ltu-rest-ws.mwzyn.mongodb.net/test?authSource=admin&replicaSet=atlas-i5ooth-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`;
 
 // Läs in Schemana
 //var Student = require("./models/student.js");
@@ -47,7 +52,16 @@ app.all('/*', function(req, res, next) {
   next();
 });*/
 
-// Starta servern
-app.listen(port, function() {
-    console.log("Server running on port " + port);
+// Create a MongoDB connection pool and start the application
+// after the database connection is ready
+MongoClient.connect(DATABASE_URL, (err, db) => {
+    if (err) {
+        console.error(`Failed to connect to the database. ${err.stack}`);
+    }
+    app.locals.db = db.db(DATABASE) // Connect to database "Schedule"
+
+    // Starta servern
+    app.listen(port, function() {
+        console.log("Server running on port " + port);
+    });
 });
