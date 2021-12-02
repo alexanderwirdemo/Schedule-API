@@ -2,6 +2,16 @@ module.exports = function (app) {
     const https = require('https');
     //var Resultat = require("../models/result.js");
 
+   
+
+    app.all('/*', function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Credentials", "true");
+        res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type");
+        res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
+        next();
+      });
+
     // GET-anrop en kurs
     app.get("/timeedit/api/all/courses", function (req, res) {
         const courseId = req.params.courseId;
