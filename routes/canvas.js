@@ -1,5 +1,6 @@
 
 module.exports = function (app) {
+    
     const https = require('https');
     //var Resultat = require("../models/result.js");
     let token = "3755~0H049oLoUPpNxP85OmmXJf8MiSE5R7Fv4HvFPkt8GB3634QvaksVv3XqVM9DEF2A";
@@ -12,13 +13,13 @@ module.exports = function (app) {
             let url = "https://ltu.instructure.com/api/v1/calendar_events.json";
             let headers = {Authorization: "Bearer "+token};
             let calendar_event = {
-                context_code: "course_6241",
+                context_code: "user_30473",
                 title: "API Test!",
                 start_at: "2018-11-16T17:00:00Z",
                 end_at: "2018-11-16T20:00:00Z"
             };
             let form = {
-                calendar_event,
+                calendar_event
             };
             let method = "POST";
             //method: 'POST'
@@ -27,9 +28,13 @@ module.exports = function (app) {
 
 
     // POST-anrop en kurs
-    app.post("/canvas/api/courses", function ({url: url, headers: headers, form: form, method: method}, res) {
+    app.post("/canvas/api/courses/", function (req, res) {
         //const courseId = req.params.courseId;
-       //console.dir(required);
+       console.dir(req.body);
+        /*console.log(url);
+       console.dir(headers);
+       console.log(form);
+       console.log(method);*/
 
        res.send();
 
