@@ -37,7 +37,7 @@ module.exports = function (app) {
        console.log(method);*/
 
        res.send();
-       
+
 
     });
 
@@ -56,7 +56,7 @@ module.exports = function (app) {
             result.on("end", () => {
                 try {
                     let json = JSON.parse(body);
-                    console.dir(json);
+                    // console.dir(json);
                     res.status(200).send(json);
                 } catch (error) {
                     console.error(error.message);

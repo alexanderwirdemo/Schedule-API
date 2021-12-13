@@ -48,39 +48,46 @@ module.exports = function (app) {
             if(courseindex==132871){
                 res.status(200).send(courses);
             }
+          });
+        })
+        .on("error", (error) => {
+          console.error(error.message);
+        });
+      //console.log(courseindex);
+      if (courseindex == 132871) {
+        res.status(200).send(courses);
+      }
+    }
+  });
 
-        }
+  // GET-anrop alla aktiva moduler
+  app.get("/timeedit/api/course/:courseId", function (req, res) {
+    const courseId = req.params.courseId;
+    let url =
+      "https://cloud.timeedit.net/ltu/web/schedule1/ri.json?h=t&sid=3&p=20200901.x,20210117.x&objects=" +
+      courseId +
+      ".28&ox=0&types=0&fe=0";
 
-    });
+    https
+      .get(url, (result) => {
+        let body = "";
 
-    // GET-anrop alla aktiva moduler
-    app.get("/timeedit/api/course/:courseId", function (req, res) {
-        const courseId = req.params.courseId;
-        let url = "https://cloud.timeedit.net/ltu/web/schedule1/ri.json?h=t&sid=3&p=20200901.x,20210117.x&objects=" + courseId + ".28&ox=0&types=0&fe=0";
-
-        https.get(url, (result) => {
-            let body = "";
-
-            result.on("data", (chunk) => {
-                body += chunk;
-            });
-
-            result.on("end", () => {
-                try {
-                    let json = JSON.parse(body);
-                    console.dir(json);
-                    res.status(200).send(json);
-                } catch (error) {
-                    console.error(error.message);
-                };
-            });
-
-        }).on("error", (error) => {
-            console.error(error.message);
+        result.on("data", (chunk) => {
+          body += chunk;
         });
 
-    });
-
-}
-
-
+        result.on("end", () => {
+          try {
+            let json = JSON.parse(body);
+            console.dir(json);
+            res.status(200).send(json);
+          } catch (error) {
+            console.error(error.message);
+          }
+        });
+      })
+      .on("error", (error) => {
+        console.error(error.message);
+      });
+  });
+};
