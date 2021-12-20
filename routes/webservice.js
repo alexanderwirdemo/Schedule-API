@@ -48,15 +48,7 @@ module.exports = function (app) {
             if(courseindex==132871){
                 res.status(200).send(courses);
             }
-          });
-        })
-        .on("error", (error) => {
-          console.error(error.message);
-        });
-      //console.log(courseindex);
-      if (courseindex == 132871) {
-        res.status(200).send(courses);
-      }
+    
     }
   });
 
